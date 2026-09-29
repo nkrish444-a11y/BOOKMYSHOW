@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your LMS | Sign In</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: #f5f7fb;
+      color: #243447;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .login-card {
+      width: min(100%, 520px);
+      padding: 48px 36px 26px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .brand {
+      margin: 0 0 30px;
+      color: #0f172a;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: #111827;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    .subtitle {
+      margin: 0 0 34px;
+      color: #64748b;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .field {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #334155;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      color: #1e293b;
+      font-size: 18px;
+      outline: none;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 4px 0 30px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      color: #334155;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .remember input {
+      width: 20px;
+      height: 20px;
+    }
+
+    a {
+      color: #4169c1;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .forgot {
+      font-size: 18px;
+    }
+
+    button {
+      width: 100%;
+      padding: 17px;
+      border: none;
+      border-radius: 12px;
+      background: #2d65e5;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .message {
+      display: none;
+      margin: 0 0 18px;
+      padding: 10px 12px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      background: #fef2f2;
+      color: #991b1b;
+      font-size: 14px;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .signup {
+      margin: 26px 0 0;
+      color: #64748b;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .signup a {
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 36px 22px 24px;
+      }
+
+      .brand {
+        font-size: 28px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+
+      .subtitle,
+      label,
+      .remember,
+      .forgot,
+      .signup {
+        font-size: 16px;
+      }
+
+      .options {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-card">
+    <div class="brand">Your LMS</div>
+
+    <h1>Sign in to your account</h1>
+    <p class="subtitle">Access your courses and recordings</p>
+
+    <p id="message" class="message" role="alert"></p>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <div class="options">
+        <label class="remember" for="remember">
+          <input id="remember" name="remember" type="checkbox">
+          Remember me
+        </label>
+
+        <a class="forgot" href="#" id="forgotPassword">
+          Forgot password?
+        </a>
+      </div>
+
+      <button type="submit">Sign in</button>
+    </form>
+
+    <p class="signup">
+      Don’t have an account?
+      <a href="#" id="createAccount">Create one</a>
+    </p>
+  </main>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        message.textContent = "Please enter your email and password.";
+        message.classList.add("show");
+        return;
+      }
+
+      message.textContent =
+        "Demo login page. Connect this form to your backend API for real authentication.";
+      message.classList.add("show");
+
+      /*
+      Example for a real backend API:
+
+      fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Invalid email or password");
+        }
+
+        window.location.href = "/dashboard.html";
+      })
+      .catch(error => {
+        message.textContent = error.message;
+        message.classList.add("show");
+      });
+      */
+    });
+
+    document.getElementById("forgotPassword").addEventListener("click", function (event) {
+      event.preventDefault();
+      alert("Add your password reset page link here.");
+    });
+
+    document.getElementById("createAccount").addEventListener("click", function (event) {
+      event.preventDefault();
+      alert("Add your registration page link here.");
+    });
+  </script>
+</body>
+</html>
